@@ -1,0 +1,205 @@
+<!--
+    LPTP
+    Copyright (C) 2024-2525  ko114
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ problem.title }}</title>
+    <style>
+        h1.pt {
+            text-align: center;
+            font-size: 36px;
+            margin: 37px 0px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: normal;
+            font-family: "Times New Roman", SimHei, serif;
+
+        }
+
+        h2::before, h3::before {
+            content: "【";
+        }
+
+        h2::after, h3::before {
+            content: "】";
+        }
+
+        b, strong {
+            text-emphasis-position: under right;
+            text-emphasis-style: dot;
+        }
+
+        code {
+            font-family: Consolas, monospace;
+
+        }
+
+        p, ul, ol {
+            font-size: 24px;
+            font-family: 'Times New Roman', SimSun, serif;
+            line-height: 1.6;
+            margin: unset;
+        }
+
+        p {
+            text-indent: 2em;
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: black;
+            font-family: KaTeX_Main, SimHei;
+            font-style: italic;
+            transition: unset;
+        }
+
+        a:hover {
+            filter: none;
+        }
+
+        :focus-visible {
+            outline: 3px dashed black;
+        }
+
+        img, table {
+            display: table;
+            margin: 25px auto;
+            width: min-content;
+        }
+
+        table > thead > tr {
+            border-bottom: 2px solid black;
+        }
+
+        table > thead > tr > th, table > tbody > tr > td {
+            font-size: 24px;
+            font-weight: normal;
+            font-family: SimSun;
+            border: 1px solid black;
+        }
+
+        table {
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            border-left: 2px solid white;
+            border-right: 2px solid white;
+        }
+
+        h2 {
+            font-size: 28px;
+        }
+        h3 {
+            font-size: 26px;
+        }
+        pre{
+            font-family: Consolas, monospace;
+            background: #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            overflow: scroll;
+        }
+        #wrapper {
+              padding: 77px 141px 156px 141px;
+            box-shadow: 0 1px 10px 0px #1a1a1a1a;
+            background: #fff;
+            max-width: 50vw;
+            margin: auto;
+            font-size: 24px;
+        }
+        body {
+            background:#e6e6e6;
+        }
+        blockquote {
+            padding: 10px 20px;
+            margin: 0 0 20px;
+            border-left: 5px solid #eee;
+        }
+        img {
+            max-width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
+          integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"
+            integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6"
+            crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"
+            integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"
+            crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div id="wrapper">
+<h1 class="pt">{{problem.pid}} {{problem.title}}</h1>
+{% if problem.background %}
+<div>
+    <h2>题目背景</h2>
+    {{ problem.background|safe }}
+</div>
+{%endif%}
+<div>
+    <h2>题目描述</h2>
+    {{ problem.description|safe }}
+
+</div>
+<div>
+    <h2>输入格式</h2>
+    {{ problem.formatI|safe }}
+
+</div>
+<div>
+    <h2>输出格式</h2>
+    {{ problem.formatO|safe }}
+
+</div>
+<div>
+    {% for sg in problem.samples %}
+    <h2>样例 {{loop.index}} 输入</h2>
+    <pre>{{sg[0]}}</pre>
+    <h2>样例 {{loop.index}} 输出</h2>
+    <pre>{{sg[1]}}</pre>
+
+    {%endfor%}
+</div>
+{% if problem.hint %}
+<div>
+    <h2>说明/提示</h2>
+    {{ problem.hint|safe }}
+</div>
+{%endif%}
+</div>
+</body>
+</html>
