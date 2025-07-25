@@ -32,8 +32,17 @@ def arg():
 
 
 def main(pid, quiet=False, output='<pid>.html'):
+
     output=pid+".html" if output=="<pid>.html" else output
     session = utils.Session(json.load(open('cookies.json')))
+    try:
+        user = session.currentUser()
+    except:
+        print('登录过期。')
+        exit(1)
+    if not quiet:
+        print(f'登录为 {user["name"]}')
+
     if not quiet:
         print('下载题目中')
     problem=fetch_problem.fetch_problem(session, pid)

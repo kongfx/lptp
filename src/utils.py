@@ -198,8 +198,8 @@ class Session:
     def currentUser(self) -> dict:
         if 'user' not in self.__dict__:
             self.user = self.session.get('https://www.luogu.com.cn/training/list').json()['currentUser']
-            print('GET user', file=sys.stderr)
-            print(json.dumps(self.user, indent=4), file=sys.stderr)
+            # print('GET user', file=sys.stderr)
+            # print(json.dumps(self.user, indent=4), file=sys.stderr)
         return self.user
 
 
