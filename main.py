@@ -41,7 +41,7 @@ def main(pid, quiet=False, output='<pid>.html'):
         print('登录过期。')
         exit(1)
     if not quiet:
-        print(f'登录为 {user["name"]}')
+        print(f'登录为 {user["name"]}。')
 
     if not quiet:
         print('下载题目中')
