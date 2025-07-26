@@ -15,6 +15,9 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
 import json
+import tempfile
+
+import pdfkit
 
 from src import do_login, fetch_problem, htmllib, render, utils
 
@@ -25,13 +28,13 @@ def arg():
     parser.add_argument('-q', '--quiet', action='store_true')
     parser.add_argument('--login', action='store_true')
     parser.add_argument('-o', '--output', default='<pid>.html')
-
+    # parser.add_argument('-f', '--format', default='html', choices=['html', 'pdf'])
     args = parser.parse_args()
 
     return args
 
 
-def main(pid, quiet=False, output='<pid>.html'):
+def main(pid, quiet=False, output='<pid>.html', is_pdf=False):
 
     output=pid+".html" if output=="<pid>.html" else output
     session = utils.Session(json.load(open('cookies.json')))
@@ -49,7 +52,7 @@ def main(pid, quiet=False, output='<pid>.html'):
     if not quiet:
         print('渲染题目中')
     result=render.template.render(problem=problem)
-    if not quiet:
+    if not quiet and not is_pdf:
         print(f'渲染完成，文件将保存至 {output}。')
     with open(output, 'w') as f:
         f.write(result)
@@ -65,10 +68,18 @@ def login():
         print('登录失败。请重新登录。')
         valid, resp, session = do_login.do_login()
     json.dump(session.session.cookies.get_dict(), open('cookies.json', 'w'))
+# def topdf(htmlfile, output, pid):
+#     output=pid + ".pdf" if output == "<pid>.html" else output
+#     pdfkit.from_file(htmlfile, output)
 
 if __name__ == '__main__':
     args = arg()
     if args.login:
         login()
     else:
+        # if args.format == 'html':
         main(args.pid, quiet=args.quiet, output=args.output)
+        # elif args.format == 'pdf':
+        #     with tempfile.NamedTemporaryFile(suffix='.html') as tf:
+        #         main(args.pid, quiet=args.quiet, output=tf.name)
+        #         topdf(tf.name, args.output, args.pid)
