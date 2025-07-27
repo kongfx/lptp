@@ -54,7 +54,7 @@ def main(pid, quiet=False, output='<pid>.html', is_pdf=False):
     result=render.template.render(problem=problem)
     if not quiet and not is_pdf:
         print(f'渲染完成，文件将保存至 {output}。')
-    with open(output, 'w') as f:
+    with open(output, 'w', encoding="utf-8") as f:
         f.write(result)
 
 

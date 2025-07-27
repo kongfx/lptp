@@ -38,9 +38,12 @@ def do_login(ka=False)-> tuple[bool,requests.Response, utils.Session]:
     password = getpass.getpass('密码（不会显示）：')
     print('获取验证码中...')
     c = session.captcha(ka)
-    tfile=tempfile.NamedTemporaryFile(suffix='.png', mode='wb')
+    tfile=tempfile.NamedTemporaryFile(suffix='.png', mode='wb', delete=False)
     Image.open(BytesIO(c)).save(tfile, 'PNG')
+    tfile.close()
     img=mpimg.imread(tfile.name)
+    import os
+    os.unlink(tfile.name)
     plt.imshow(img)
     plt.show()
     captcha = input('输入验证码：')
